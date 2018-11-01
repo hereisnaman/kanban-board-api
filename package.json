@@ -1,0 +1,41 @@
+{
+  "name": "api.pides.io",
+  "version": "1.0.0",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "yarn build && NODE_ENV=production node dist/app/index.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node app/index.js",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "format": "prettier --write \"app/**/*.{js,json}\"",
+    "precommit": "lint-staged"
+  },
+  "repository": "https://github.com/hereisnaman/api.pides.io.git",
+  "author": "Naman Kumar <naman@outlook.in>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "bcrypt-nodejs": "^0.0.3",
+    "compression": "^1.7.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.1",
+    "raven": "^2.6.4",
+    "rimraf": "^2.6.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint-cli": "^1.1.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^2.7.0",
+    "husky": "^1.0.1",
+    "lint-staged": "^7.3.0",
+    "nodemon": "^1.18.4",
+    "prettier": "^1.14.3"
+  }
+}
