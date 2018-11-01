@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 
 import routes from './routes/';
-import config from '../config/';
+import * as config from '../config/';
 import { handle404, handleError } from './middlewares/';
 
 const app = express();

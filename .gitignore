@@ -64,3 +64,5 @@ typings/
 # lock files
 yarn.lock
 package-lock.json
+
+firebase-key.json

@@ -19,6 +19,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "firebase-admin": "^6.1.0",
     "morgan": "^1.9.1",
     "raven": "^2.6.4",
     "rimraf": "^2.6.2"

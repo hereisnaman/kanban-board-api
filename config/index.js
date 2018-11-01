@@ -1,4 +1,2 @@
-import app from './app';
-import integrations from './integrations';
-
-export default { app, integrations };
+export { default as app } from './app';
+export { default as integrations } from './integrations';
