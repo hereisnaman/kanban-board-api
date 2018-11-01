@@ -1,12 +1,12 @@
 import auth from '../auth';
 
 const authorize = async (req, res, next) => {
-  const { Authorization = '' } = req.headers;
+  const { authorization = '' } = req.headers;
 
-  const token = Authorization.substring(7);
+  const token = authorization.substring(7);
 
-  if (!!token) {
-    return res.send(403);
+  if (!token) {
+    return res.sendStatus(403);
   }
 
   try {
@@ -18,7 +18,7 @@ const authorize = async (req, res, next) => {
 
     return next();
   } catch (err) {
-    return res.send(403);
+    return res.sendStatus(403);
   }
 };
 

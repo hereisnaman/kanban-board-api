@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 import path from 'path';
 import cors from 'cors';
@@ -9,7 +11,6 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 
 import routes from './routes/';
-import * as config from '../config/';
 import { handle404, handleError } from './middlewares/';
 
 const app = express();
@@ -19,14 +20,18 @@ app.set('env', process.env.NODE_ENV);
 
 // Initialize Sentry
 if (isProduction) {
-  raven.config(config.integrations.SENTRY.DSN).install();
+  raven.config(process.env.SENTRY_DSN).install();
   app.use(raven.requestHandler());
 }
 
 // middlewares
 app.use(compression());
 app.use(morgan('tiny'));
-app.use(cors(config.app.CORS));
+app.use(
+  cors({
+    origin: '*',
+  }),
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === 'production') {
@@ -47,4 +52,5 @@ app.use(handle404);
 app.use(handleError);
 
 // start server
-app.listen(config.app.PORT, () => console.log(`Server running at http://localhost:${config.app.PORT}/`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/`));

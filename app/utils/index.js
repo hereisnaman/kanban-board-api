@@ -1,0 +1,1 @@
+export { requestHasura } from './requestHasura';

@@ -1,11 +1,10 @@
-import { integrations } from '../config/';
-
 const admin = require('firebase-admin');
+const serviceAccount = require('../firebase-key.json');
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(integrations.FIREBASE.ADMIN.SERVICE_ACCOUNT),
-    databaseURL: integrations.FIREBASE.ADMIN.DATABASE_URL,
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
   });
 }
 
