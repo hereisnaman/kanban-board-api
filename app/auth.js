@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(integrations.FIREBASE.ADMIN.SERVICE_ACCOUNT),
-    databaseURL: integrations.ADMIN.DATABASE_URL,
+    databaseURL: integrations.FIREBASE.ADMIN.DATABASE_URL,
   });
 }
 

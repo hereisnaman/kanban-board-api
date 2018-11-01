@@ -37,11 +37,11 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/public', express.static('public'));
 
 // routes
-app.get('/', routes);
+app.use('/', routes);
 
 // error handlers
 if (isProduction) {
-  app.use(Raven.errorHandler());
+  app.use(raven.errorHandler());
 }
 app.use(handle404);
 app.use(handleError);
