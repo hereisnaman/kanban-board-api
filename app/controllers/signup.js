@@ -1,33 +1,14 @@
-import auth from '../auth';
-import { requestHasura } from '../utils/';
+import uuid from 'uuid/v1';
+
+import { createUsers, createLists, createTasks } from '../actions/';
 
 const signup = async (req, res) => {
   const { name, email, uid, avatar } = req.body;
 
   try {
-    const { data, errors = [] } = await requestHasura({
-      query: `mutation($user: users_insert_input!) {
-        insert_users(objects: [$user]) {
-          returning {
-            uid
-            email
-            name
-            avatar
-          }
-        }
-      }
-    `,
-      variables: {
-        user: {
-          uid,
-          email,
-          name,
-          avatar,
-        },
-      },
-    });
+    const { data: usersData, errors: createUsersErrors = [] } = await createUsers([{ uid, email, name, avatar }]);
 
-    if (errors.length && errors.find(({ code }) => code === 'constraint-violation')) {
+    if (createUsersErrors.length && createUsersErrors.find(({ code }) => code === 'constraint-violation')) {
       return res.send({
         uid,
         email,
@@ -36,7 +17,46 @@ const signup = async (req, res) => {
       });
     }
 
-    return res.send(response.data.insert_users.returning[0]);
+    const { data: listsData, errors: createListsErrors = [] } = await createLists(
+      [
+        {
+          uid: uuid(),
+          title: 'Todo',
+          user_id: uid,
+        },
+        {
+          uid: uuid(),
+          title: 'In progress',
+          user_id: uid,
+        },
+        {
+          uid: uuid(),
+          title: 'Complete',
+          user_id: uid,
+        },
+      ],
+      `{
+        uid
+      }`,
+    );
+
+    const { data: tasksData, errors: createTasksErrors = [] } = await createTasks(
+      [
+        {
+          uid: uuid(),
+          title: 'Sample Task',
+          createdAt: new Date(),
+          user_id: uid,
+          list_id: listsData.insert_lists.returning[0].uid,
+          priority: 0,
+        },
+      ],
+      `{
+        uid
+      }`,
+    );
+
+    return res.send(usersData.insert_users.returning[0]);
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
