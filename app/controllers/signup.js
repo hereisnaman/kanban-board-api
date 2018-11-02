@@ -5,7 +5,7 @@ const signup = async (req, res) => {
   const { name, email, uid, avatar } = req.body;
 
   try {
-    const { data, errors } = await requestHasura({
+    const { data, errors = [] } = await requestHasura({
       query: `mutation($user: users_insert_input!) {
         insert_users(objects: [$user]) {
           returning {
